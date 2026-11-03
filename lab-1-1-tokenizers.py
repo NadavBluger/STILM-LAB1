@@ -232,10 +232,14 @@ def get_pair_counts(token_counts: Counter) -> Counter:
         get_pair_counts(Counter({(b"l", b"o", b"w"): 3, (b" ", b"l", b"o", b"w"): 1})) ->
             Counter({(b'l', b'o'): 4, (b'o', b'w'): 4, (b' ', b'l'): 1})
     """
-    pair_counts = Counter()
-    # TODO COMPLETE (3)
-    raise NotImplementedError("TODO 3")
+    pairs_list = []
+    for key, val in token_counts.items():
+        for key_pair in zip(key[:-1], key[1:]):  # key is tuple
+            pairs_list += [key_pair] * val
+
+    pair_counts = Counter(pairs_list)
     return pair_counts
+
 
 
 def merge_pair_in_token(
@@ -578,4 +582,6 @@ def main() -> None:
 
 if __name__ == "__main__":
     #main()
-    print(count_pretokens(["hi hi", "hi"]))
+    #print(count_pretokens(["hi hi", "hi"]))
+    tmp = get_pair_counts(Counter({(b"l", b"o", b"w"): 3, (b" ", b"l", b"o", b"w"): 1}))
+    print(tmp)
