@@ -383,8 +383,18 @@ class SimpleBPETokenizer:
             SimpleBPETokenizer().encode("hi") -> [104, 105]
         """
         token_ids: list[int] = []
-        # TODO COMPLETE (7)
-        raise NotImplementedError("TODO 7")
+        pretokens_bytes = [str_to_bytes(pretoken_raw) for pretoken_raw in bpe_pretokenize(text)]
+        # merge pieces
+        for merge_rule in self.merges:
+            for i in range(len(pretokens_bytes)):
+                pretoken_bytes = pretokens_bytes[i]
+                merged_pretoken_bytes = merge_pair_in_token(pretoken_bytes, merge_rule)
+                pretokens_bytes[i] = merged_pretoken_bytes
+
+        # convert to ids
+        for token_bytes in pretokens_bytes:
+            for piece in token_bytes:
+                token_ids.append(self.piece_to_id[piece])
         return token_ids
 
     def decode(self, token_ids: list[int]) -> str:
@@ -403,8 +413,10 @@ class SimpleBPETokenizer:
         Example:
             SimpleBPETokenizer().decode([104, 105]) -> "hi"
         """
-        # TODO COMPLETE (8)
-        raise NotImplementedError("TODO 8")
+        pieces = [self.id_to_piece[my_id] for my_id in token_ids]
+        pieces_bytes = b''.join(pieces)
+        result = pieces_bytes.decode("utf-8", errors="replace")
+        return result
 
 
 def longest_tokens(
