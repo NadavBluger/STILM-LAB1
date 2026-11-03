@@ -223,6 +223,9 @@ While tokenizing one digit at a time might cause the model to loss the meaning o
 * Was it clear (at least after you completed the lab) what the points of the exercises were?
 
 **Answer:**
+Wat too long or too short depends on what you aim for, we can report 3 hours of work outside the class
+The instructions were clear (except for some existing code we did not understand how to use, specifically "piece_to_text")
+And we believe we do get the point
 
 ## Submission
 Collect all of the files in the given directory into a **flat** zip file (**NO** internal directories) and submit it for grading via Gradescope.
