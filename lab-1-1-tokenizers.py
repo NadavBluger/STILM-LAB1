@@ -262,11 +262,19 @@ def merge_pair_in_token(
             (b"lo", b"w", b"e", b"r")
         merge_pair_in_token((b"a", b"a", b"a"), (b"a", b"a")) -> (b"aa", b"a")
     """
-    merged: list[bytes] = []
-    # TODO COMPLETE (4)
-    raise NotImplementedError("TODO 4")
-    return tuple(merged)
 
+    merged: list[bytes] = []
+    i=0
+    while i < len(token)-1:
+        if (token[i], token[i+1]) != pair:
+            merged.append(token[i])
+        else:
+            merged.append(bytes(pair[0]+pair[1]))
+            i+=1
+        i+=1
+    if token and i ==len(token)-1:
+        merged.append(token[-1])
+    return tuple(merged)
 
 def merge_pair(token_counts: Counter, pair: tuple[bytes, bytes]) -> Counter:
     """Merge every occurrence of `pair` in a whole corpus of counted pre-tokens.
@@ -583,5 +591,5 @@ def main() -> None:
 if __name__ == "__main__":
     #main()
     #print(count_pretokens(["hi hi", "hi"]))
-    tmp = get_pair_counts(Counter({(b"l", b"o", b"w"): 3, (b" ", b"l", b"o", b"w"): 1}))
+    tmp = merge_pair_in_token((b"a", b"a", b"a", b"a"), (b"a", b"a"))
     print(tmp)
