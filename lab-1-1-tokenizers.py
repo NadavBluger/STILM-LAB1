@@ -75,10 +75,10 @@ def manual_pretokenization() -> list[list[str]]:
         "What a funny character 😊",
     ]
     # TODO COMPLETE (1)
-    return [["the", "Gcat", "Gand", "Gthe", "Gtheater"],
-            ["Once", "Gupon", "Ga", "Gtime", "."],
-            ["I'll", "Ggo", "Gthere", "!"],
-            ["What", "Ga", "Gfunny", "Gcharacter", "G😊"]] 
+    return [["the", "Ġcat", "Ġand", "Ġthe", "Ġtheater"],
+            ["Once", "Ġupon", "Ġa", "Ġtime", "."],
+            ["I'll", "Ġgo", "Ġthere", "!"],
+            ["What", "Ġa", "Ġfunny", "Ġcharacter", "Ġ😊"]]
   
 
 
@@ -107,7 +107,7 @@ def manual_toy_bpe() -> list[str]:
             ["Ġ", "a", "b", "ab", "Ġab"]
     """
     texts = ["cat cat cat", "hat hat", "cap"]
-    return ["G", "a", "c", "h", "p", "t", "at", "cat", "Gcat", "hat"]
+    return ["Ġ", "a", "c", "h", "p", "t", "at", "cat", "hat", "Ġcat"]
 
 
 def manual_encode() -> list[int]:
@@ -210,10 +210,11 @@ def count_pretokens(texts: list[str]) -> Counter:
             Counter({(b"h", b"i"): 2, (b" ", b"h", b"i"): 1})
     """
     pre_toknized = []
-    [pre_toknized.extend(bpe_pretokenize(text)) for text in texts]
-    counts = Counter()
-    for s in pre_toknized:
-        counts.update(tuple(Counter(s)))
+    for text in texts:
+        pre_tokens = bpe_pretokenize(text)
+        bytes_ = tuple(str_to_bytes(pre_token) for pre_token in pre_tokens)
+        pre_toknized.extend(bytes_)
+    counts = Counter(pre_toknized)
     return counts
 
 
@@ -576,4 +577,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    #main()
+    print(count_pretokens(["hi hi", "hi"]))
