@@ -191,8 +191,11 @@ python test_1_1.py 7 8
 
 **Question:** The size of the tokenizer vocabulary inherently has a trade-off. What is the tradeoff between? Which advantages and disadvantages are there for larger vocabulary sizes?
 
-**Answer:** 
+**Answer:**
+Larger vocabularies are able to capture more meaning by being able to merge a larger amount of frequently together symbols.
+However the larger the vocabulary the more memory is needed to store it, additionally the parameter count of the language models increases with vocabulary size
 
+Smaller vocabularies are more efficient however might result in worst performance of the model since they loss meaning
 
 After writing your answer, run the full script:
 
@@ -201,14 +204,17 @@ python lab-1-1-tokenizers.py
 ```
 
 Read the `# Vocabulary-size tradeoff` section in the output. Was your hypothesis correct? Did you miss anything? 
-
+We didnt consider the tokenizer learning time which of course increases with vocabulary size.
+We also missed the fact that the representation size of the tokens get larger
 
 ## TODO 10: Arithmetic tokenization
 **Question:** In some tokenization schemes, numbers that are written in digits (e.g. "74691") get tokenized in a special way. 
 Some tokenize per-digit while others tokenize entire numbers up to a certain limit. How do you think this design choice affects follow-up training of the language model? Why?
 
 **Answer:**
-
+Tokenizing numbers as wholes will both increase the vocabulary greatly and in addition will add alot of "one off" examples in the traing,
+meaning one training data point might contain the number 656734232 but no other point will. And it will increase the likelihood of encountering an unknown number in the test phase
+While tokenizing one digit at a time might cause the model to loss the meaning of numbers
 
 ## Lab debrief
 **Question:** We’re interested in **any** thoughts you have about this lab so that we can improve this lab for later years, and to inform later labs for this year. Please list any issues that arose or comments you have to improve the lab. Useful things to comment on include the following, but you’re not restricted to these:

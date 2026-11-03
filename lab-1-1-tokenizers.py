@@ -612,8 +612,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    #main()
-    #print(count_pretokens(["hi hi", "hi"]))
-    tmp = merge_pair(Counter({(b"l", b"o", b"w"): 3, (b" ", b"l", b"o", b"w"): 1}),
-                   (b"l", b"o"))
-    print(tmp)
+    main()
+
