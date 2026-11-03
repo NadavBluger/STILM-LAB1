@@ -290,10 +290,12 @@ def merge_pair(token_counts: Counter, pair: tuple[bytes, bytes]) -> Counter:
         merge_pair(Counter({(b"l", b"o", b"w"): 3, (b" ", b"l", b"o", b"w"): 1}),
                    (b"l", b"o")) -> Counter({(b"lo", b"w"): 3, (b" ", b"lo", b"w"): 1})
     """
-    new_counts = Counter()
-    # TODO COMPLETE (5)
-    raise NotImplementedError("TODO 5")
-    return new_counts
+    new_counts = {}
+
+    for key, val in token_counts.items():
+        new_key = merge_pair_in_token(key, pair)
+        new_counts[new_key] = new_counts.get(new_key, 0) + val
+    return Counter(new_counts)
 
 
 class SimpleBPETokenizer:
@@ -591,5 +593,6 @@ def main() -> None:
 if __name__ == "__main__":
     #main()
     #print(count_pretokens(["hi hi", "hi"]))
-    tmp = merge_pair_in_token((b"a", b"a", b"a", b"a"), (b"a", b"a"))
+    tmp = merge_pair(Counter({(b"l", b"o", b"w"): 3, (b" ", b"l", b"o", b"w"): 1}),
+                   (b"l", b"o"))
     print(tmp)
