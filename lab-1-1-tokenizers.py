@@ -354,9 +354,18 @@ class SimpleBPETokenizer:
         """
         if vocab_size < self.vocab_size:
             raise ValueError(f"vocab_size must be at least {self.vocab_size}")
+        pre_token_counts = count_pretokens(texts)
+        while self.vocab_size < vocab_size:
+            pair_counts = get_pair_counts(pre_token_counts)
+            if not pair_counts:
+                break
+            max_commonality = pair_counts.most_common(1)[0][1]
+            candidate_pairs = [k for k,v in pair_counts.items() if v == max_commonality]
+            pair_to_merge = sorted(candidate_pairs, reverse=True)[0]
+            self.add_piece(pair_to_merge[0]+pair_to_merge[1])
+            self.merges.append(pair_to_merge)
+            pre_token_counts = merge_pair(pre_token_counts, pair_to_merge)
 
-        # TODO COMPLETE (6)
-        raise NotImplementedError("TODO 6")
 
     def encode(self, text: str) -> list[int]:
         """Turn text into token IDs.
